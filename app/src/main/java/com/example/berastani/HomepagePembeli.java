@@ -33,6 +33,7 @@ public class HomepagePembeli extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pulen = true;
+                pera = false;
                 Intent i = new Intent(HomepagePembeli.this, ConfirmActivity.class);
                 startActivity(i);
             }
@@ -42,6 +43,7 @@ public class HomepagePembeli extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pera = true;
+                pulen = false;
                 Intent i = new Intent(HomepagePembeli.this, ConfirmActivity.class);
                 startActivity(i);
             }
