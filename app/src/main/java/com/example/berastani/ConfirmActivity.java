@@ -112,10 +112,10 @@ public class ConfirmActivity extends AppCompatActivity {
         btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                options.setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES);
+                options.setOrientationLocked(false);
                 options.setPrompt("Scan a barcode");
                 options.setCameraId(0);  // Use a specific camera of the device
-                options.setBeepEnabled(false);
+                options.setBeepEnabled(true);
                 options.setBarcodeImageEnabled(true);
                 barcodeLauncher.launch(options);
             }
