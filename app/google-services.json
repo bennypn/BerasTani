@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "572921124723",
+    "firebase_url": "https://ta-sarah-anggie-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "ta-sarah-anggie",
+    "storage_bucket": "ta-sarah-anggie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572921124723:android:1592d6bb88c0124fc95706",
+        "android_client_info": {
+          "package_name": "com.example.berastani"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "572921124723-86n1po2jq7a01hi361u18h97socg4mi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5w9x_9IuEfIlHmBRixcwibY2tzGYf7Lw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "572921124723-86n1po2jq7a01hi361u18h97socg4mi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
