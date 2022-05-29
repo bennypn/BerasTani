@@ -40,6 +40,8 @@ public class ConfirmActivity extends AppCompatActivity {
         min = findViewById(R.id.minus_item);
         back = findViewById(R.id.back_btn);
 
+        ScanOptions options = new ScanOptions();
+
         berasPera = "Beras Petruk Pera";
         berasPulen = "Beras Rojolele Pulen";
 
@@ -110,11 +112,12 @@ public class ConfirmActivity extends AppCompatActivity {
         btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                barcodeLauncher.launch(new ScanOptions());
-
-                Intent i = new Intent(ConfirmActivity.this, TransactionActivity.class);
-                startActivity(i);
+                options.setDesiredBarcodeFormats(ScanOptions.ONE_D_CODE_TYPES);
+                options.setPrompt("Scan a barcode");
+                options.setCameraId(0);  // Use a specific camera of the device
+                options.setBeepEnabled(false);
+                options.setBarcodeImageEnabled(true);
+                barcodeLauncher.launch(options);
             }
         });
     }
@@ -125,7 +128,9 @@ public class ConfirmActivity extends AppCompatActivity {
                 if(result.getContents() == null) {
                     Toast.makeText(ConfirmActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(ConfirmActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                //    Toast.makeText(ConfirmActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(ConfirmActivity.this, TransactionActivity.class);
+                    startActivity(i);
                 }
             });
 }
