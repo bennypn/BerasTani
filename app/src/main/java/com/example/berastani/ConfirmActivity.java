@@ -4,6 +4,7 @@ import static com.example.berastani.HomepagePembeli.pera;
 import static com.example.berastani.HomepagePembeli.pulen;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
@@ -26,6 +32,9 @@ public class ConfirmActivity extends AppCompatActivity {
     private ImageView add,min, back;
     protected static Integer cntPera, cntPulen, totalPrice = 0;
     private Integer cnt = 0;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("transaction");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +50,8 @@ public class ConfirmActivity extends AppCompatActivity {
         back = findViewById(R.id.back_btn);
 
         ScanOptions options = new ScanOptions();
+
+
 
         berasPera = "Beras Petruk Pera";
         berasPulen = "Beras Rojolele Pulen";
@@ -129,8 +140,31 @@ public class ConfirmActivity extends AppCompatActivity {
                     Toast.makeText(ConfirmActivity.this, "Cancelled", Toast.LENGTH_LONG).show();
                 } else {
                 //    Toast.makeText(ConfirmActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                    Intent i = new Intent(ConfirmActivity.this, TransactionActivity.class);
-                    startActivity(i);
+
+                    if(pera){
+                        myRef = database.getReference("transaction").child("pulen");
+                        myRef.setValue(0);
+                        myRef = database.getReference("transaction").child("pera");
+                        myRef.setValue(cntPera);
+                        myRef = database.getReference("transaction").child("status");
+                        myRef.setValue(1);
+
+                        Intent i = new Intent(ConfirmActivity.this, LoadingActivity.class);
+                        startActivity(i);
+
+                    } else if(pulen){
+                        myRef = database.getReference("transaction").child("pulen");
+                        myRef.setValue(cntPulen);
+                        myRef = database.getReference("transaction").child("pera");
+                        myRef.setValue(0);
+                        myRef = database.getReference("transaction").child("status");
+                        myRef.setValue(1);
+
+                        Intent i = new Intent(ConfirmActivity.this, LoadingActivity.class);
+                        startActivity(i);
+                    } else {
+                        total.setText("Error TV");
+                    }
                 }
             });
 }

@@ -22,7 +22,7 @@ import android.os.Bundle;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText emailTextView, passwordTextView;
+    private EditText emailTextView, passwordTextView, pwsCheck;
     private TextView logintxt;
     private Button Btn;
     private ProgressBar progressbar;
@@ -42,6 +42,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Btn = findViewById(R.id.btnregister);
         progressbar = findViewById(R.id.progressbar);
         logintxt = findViewById(R.id.txtLogin);
+        pwsCheck = findViewById(R.id.passwd);
 
         logintxt.setOnClickListener(new View.OnClickListener() {
             @Override

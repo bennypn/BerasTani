@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BerasTani">
         <activity
+            android:name=".LoadingActivity"
+            android:exported="false" />
+        <activity
             android:name=".TransactionActivity"
             android:exported="false" />
         <activity
@@ -39,7 +42,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
