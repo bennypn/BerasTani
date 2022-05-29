@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -26,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button Btn;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+    protected static String usertext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 loginUserAccount();
+                usertext = emailTextView.getText().toString();
             }
         });
 
@@ -109,8 +110,9 @@ public class LoginActivity extends AppCompatActivity {
                                     // intent to home activity
                                     Intent intent
                                             = new Intent(LoginActivity.this,
-                                            Homepage.class);
+                                            HomepagePembeli.class);
                                     startActivity(intent);
+
                                 }
 
                                 else {
