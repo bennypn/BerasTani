@@ -1,5 +1,9 @@
 package com.example.berastani;
 
+import static com.example.berastani.LoginActivity.newname;
+import static com.example.berastani.LoginActivity.newuser;
+import static com.example.berastani.LoginActivity.usernm;
+
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -18,11 +22,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import android.os.Bundle;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    private EditText emailTextView, passwordTextView, pwsCheck;
+    private EditText emailTextView, passwordTextView, namatv;
     private TextView logintxt;
     private Button Btn;
     private ProgressBar progressbar;
@@ -42,7 +49,7 @@ public class RegistrationActivity extends AppCompatActivity {
         Btn = findViewById(R.id.btnregister);
         progressbar = findViewById(R.id.progressbar);
         logintxt = findViewById(R.id.txtLogin);
-        pwsCheck = findViewById(R.id.passwd);
+        namatv = findViewById(R.id.regis_name);
 
         logintxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +79,7 @@ public class RegistrationActivity extends AppCompatActivity {
         String email, password;
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
+        newname = namatv.getText().toString();
 
         // Validations for input email and password
         if (TextUtils.isEmpty(email)) {
@@ -102,6 +110,12 @@ public class RegistrationActivity extends AppCompatActivity {
                                     "Registration successful!",
                                     Toast.LENGTH_LONG)
                                     .show();
+
+
+                            usernm = email.substring(0,5);
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("user").child(usernm);
+                            myRef.child("nama").setValue(newname);
 
                             // hide the progress bar
                             progressbar.setVisibility(View.GONE);

@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button Btn;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
-    protected static String usertext;
+    protected static String usernm, newuser,newname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 loginUserAccount();
-                usertext = emailTextView.getText().toString();
             }
         });
 
@@ -73,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         String email, password;
         email = emailTextView.getText().toString();
         password = passwordTextView.getText().toString();
+        usernm = email.substring(0,5); //cut string
 
         // validations for input email and password
         if (TextUtils.isEmpty(email)) {
@@ -105,15 +105,23 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.LENGTH_LONG)
                                             .show();
 
+
                                     // hide the progress bar
                                     progressBar.setVisibility(View.GONE);
 
                                     // if sign-in is successful
                                     // intent to home activity
-                                    Intent intent
-                                            = new Intent(LoginActivity.this,
-                                            HomepagePembeli.class);
+                                    Intent intent;
+                                    if(usernm.equals("admin")){
+                                        intent = new Intent(LoginActivity.this,
+                                                HistoryActivity.class);
+
+                                    }else{
+                                        intent = new Intent(LoginActivity.this,
+                                                HomepagePembeli.class);
+                                    }
                                     startActivity(intent);
+
 
                                 }
 

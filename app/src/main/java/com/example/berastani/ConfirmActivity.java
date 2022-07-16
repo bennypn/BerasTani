@@ -2,6 +2,10 @@ package com.example.berastani;
 
 import static com.example.berastani.HomepagePembeli.pera;
 import static com.example.berastani.HomepagePembeli.pulen;
+import static com.example.berastani.HomepagePembeli.stkPera;
+import static com.example.berastani.HomepagePembeli.stkPulen;
+import static com.example.berastani.LoginActivity.newname;
+import static com.example.berastani.LoginActivity.usernm;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -32,9 +36,10 @@ public class ConfirmActivity extends AppCompatActivity {
     private ImageView add,min, back;
     protected static Integer cntPera, cntPulen, totalPrice = 0;
     private Integer cnt = 0;
+    private Integer newCount=0;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("transaction");
+    private DatabaseReference myRef = database.getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,19 @@ public class ConfirmActivity extends AppCompatActivity {
 
         berasPera = "Beras Petruk Pera";
         berasPulen = "Beras Rojolele Pulen";
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                stkPera = snapshot.child("stock").child("pera").getValue(Integer.class);
+                stkPulen = snapshot.child("stock").child("pulen").getValue(Integer.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         total.setText(totalPrice.toString());
 
@@ -123,12 +141,32 @@ public class ConfirmActivity extends AppCompatActivity {
         btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                options.setOrientationLocked(false);
-                options.setPrompt("Scan a barcode");
-                options.setCameraId(0);  // Use a specific camera of the device
-                options.setBeepEnabled(true);
-                options.setBarcodeImageEnabled(true);
-                barcodeLauncher.launch(options);
+                if(pera && stkPera>cntPera){
+                    newCount = stkPera-cntPera;
+                    options.setOrientationLocked(false);
+                    options.setPrompt("Scan a barcode");
+                    options.setCameraId(0);  // Use a specific camera of the device
+                    options.setBeepEnabled(true);
+                    options.setBarcodeImageEnabled(true);
+                    barcodeLauncher.launch(options);
+
+                } else if(pulen && stkPulen>cntPulen){
+                    newCount = stkPulen-cntPulen;
+                    options.setOrientationLocked(false);
+                    options.setPrompt("Scan a barcode");
+                    options.setCameraId(0);  // Use a specific camera of the device
+                    options.setBeepEnabled(true);
+                    options.setBarcodeImageEnabled(true);
+                    barcodeLauncher.launch(options);
+
+                } else {
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "STOCK TIDAK CUKUP !!",
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+
             }
         });
     }
@@ -142,23 +180,29 @@ public class ConfirmActivity extends AppCompatActivity {
                 //    Toast.makeText(ConfirmActivity.this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
 
                     if(pera){
+
                         myRef = database.getReference("transaction").child("pulen");
                         myRef.setValue(0);
                         myRef = database.getReference("transaction").child("pera");
                         myRef.setValue(cntPera);
                         myRef = database.getReference("transaction").child("status");
                         myRef.setValue(1);
+                        myRef = database.getReference("stock").child("pera");
+                        myRef.setValue(newCount);
 
                         Intent i = new Intent(ConfirmActivity.this, LoadingActivity.class);
                         startActivity(i);
 
                     } else if(pulen){
+
                         myRef = database.getReference("transaction").child("pulen");
                         myRef.setValue(cntPulen);
                         myRef = database.getReference("transaction").child("pera");
                         myRef.setValue(0);
                         myRef = database.getReference("transaction").child("status");
                         myRef.setValue(1);
+                        myRef = database.getReference("stock").child("pulen");
+                        myRef.setValue(newCount);
 
                         Intent i = new Intent(ConfirmActivity.this, LoadingActivity.class);
                         startActivity(i);
